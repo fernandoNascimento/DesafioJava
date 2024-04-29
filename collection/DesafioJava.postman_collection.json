@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "d6703e88-9d0b-4b22-bb30-d50afac5b6b3",
+		"name": "DesafioJava",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "2612561"
+	},
+	"item": [
+		{
+			"name": "Pagamento",
+			"item": [
+				{
+					"name": "Incluir",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dataInclusao\": \"2024-04-28\",\r\n    \"dataPagamento\": \"2024-04-28\",\r\n    \"valorPagamento\": 51,\r\n    \"descricaoPagamento\": \"desc\",\r\n    \"dadosRecorrencia\": {\r\n        \"dataFinal\": \"2024-06-28\",\r\n        \"frequencia\": \"SEMANAL\"\r\n    },\r\n    \"destinoPagamento\": {\r\n        \"chavePix\": \"(14) 98492-4541\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/pagamento"
+					},
+					"response": []
+				},
+				{
+					"name": "buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/pagamento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"pagamento"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "AGENDADO",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "EFETUADO",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "TODOS",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricaoPagamento\": \"desc update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/pagamento/662ecc50b25ee06572a1f572"
+					},
+					"response": []
+				},
+				{
+					"name": "deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/pagamento/662ecc50b25ee06572a1f572"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comprovante",
+			"item": [
+				{
+					"name": "comprovantes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8081/comprovante/662ecc50b25ee06572a1f572"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - mynetwork
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    ports:
+      - 27017:27017
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+  pagamento: 
+    build: ./pagamento
+    image: pagamento
+    container_name: pagamento
+    environment:
+      - MONGODB_URI=mongodb://root:root@mongo:27017/pagamentodb?authSource=admin
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    restart: always
+    networks:
+      - mynetwork
+  comprovante: 
+    build: ./comprovante
+    image: comprovante
+    container_name: comprovante
+    environment:
+      - MONGODB_URI=mongodb://root:root@mongo:27017/comprovantedb?authSource=admin
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD=guest
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    restart: always
+    networks:
+      - mynetwork
+    
+networks:
+  mynetwork:
